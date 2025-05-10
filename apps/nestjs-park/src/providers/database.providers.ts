@@ -1,5 +1,4 @@
 import { DataSource } from 'typeorm';
-import { databaseConfig } from 'src/config/database.config';
 import { ParkEntity } from 'src/entities';
 
 export const databaseProviders = [
@@ -13,6 +12,7 @@ export const databaseProviders = [
                 username: process.env.DB_USERNAME || 'iksena',
                 password: process.env.DB_PASSWORD || 'postgres',
                 database: process.env.DB_NAME || 'postgres',
+                synchronize: true,
                 entities: [
                     __dirname + '/../**/*.entity{.ts,.js}',
                 ],

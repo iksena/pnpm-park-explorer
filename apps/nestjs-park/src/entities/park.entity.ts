@@ -1,25 +1,25 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Geometry, Point, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class ParkEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+export class Park {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
   @Column()
   name: string;
   @Column({ type: 'text', nullable: true })
   description: string;
-  @Column({ type: 'geometry', spatialFeatureType: 'Point', srid: 4326 })
-  geometry: string;
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({ type: 'geometry', spatialFeatureType: 'Polygon', srid: 4326 })
+  geometry: Geometry;
+  @Column({ name: 'created_at', type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({ name: 'updated_at', type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   updatedAt: Date;
 
   constructor(
-    id: number,
+    id: string,
     name: string,
     description: string,
-    geometry: string,
+    geometry: Geometry,
     createdAt: Date,
     updatedAt: Date,
   ) {

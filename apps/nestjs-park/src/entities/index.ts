@@ -1,1 +1,1 @@
-export { ParkEntity } from './park.entity';
+export { Park as ParkEntity } from './park.entity';

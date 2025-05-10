@@ -16,4 +16,8 @@ export class ParksService {
         const park = this.parksRepository.create(createParkDto);
         return this.parksRepository.save(park);
     }
+
+    async findAll(): Promise<ParkEntity[]> {
+        return this.parksRepository.find();
+    }
 }
