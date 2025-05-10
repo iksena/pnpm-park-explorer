@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
 import { CreateParkDto } from "src/dtos";
 import { ParkEntity } from "src/entities";
 import { ParksService } from "src/services";
@@ -16,5 +16,20 @@ export class ParksController {
     @Get()
     async findAll(): Promise<ParkEntity[]> {
         return this.parksService.findAll();
+    }
+
+    @Get(':id')
+    async findOne(@Param('id') id: string): Promise<ParkEntity | null> {
+        return this.parksService.findOne(id);
+    }
+
+    @Patch(':id')
+    async update(@Param('id') id: string, @Body() updateParkDto: CreateParkDto): Promise<ParkEntity | null> {
+        return this.parksService.update(id, updateParkDto);
+    }
+
+    @Delete(':id')
+    async remove(@Param('id') id: string): Promise<void> {
+        return this.parksService.remove(id);
     }
 }

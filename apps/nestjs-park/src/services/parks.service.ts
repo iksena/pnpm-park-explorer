@@ -13,11 +13,24 @@ export class ParksService {
     ) {}
 
     async createPark(createParkDto: CreateParkDto): Promise<ParkEntity> {
-        const park = this.parksRepository.create(createParkDto);
+        const park = await this.parksRepository.create(createParkDto);
         return this.parksRepository.save(park);
     }
 
     async findAll(): Promise<ParkEntity[]> {
-        return this.parksRepository.find();
+        return await this.parksRepository.find();
+    }
+
+    async findOne(id: string): Promise<ParkEntity | null> {
+        return await this.parksRepository.findOneBy({ id });
+    }
+
+    async update(id: string, updateParkDto: CreateParkDto): Promise<ParkEntity | null> {
+        await this.parksRepository.update(id, updateParkDto);
+        return this.findOne(id);
+    }
+
+    async remove(id: string): Promise<void> {
+        await this.parksRepository.delete(id);
     }
 }
