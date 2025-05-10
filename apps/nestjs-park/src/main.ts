@@ -12,6 +12,6 @@ async function bootstrap() {
     credentials: process.env.CORS_CREDENTIALS === 'true',
     maxAge: parseInt(process.env.CORS_MAX_AGE || '3600', 10),
   });
-  await app.listen(process.env.PORT ?? 3000);
+  await app.listen(process.env.PORT ?? 3001);
 }
 bootstrap();
