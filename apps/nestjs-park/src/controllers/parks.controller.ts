@@ -1,5 +1,5 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
-import { CreateParkDto } from "src/dtos";
+import { Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post } from "@nestjs/common";
+import { CreateParkDto, UpdateParkDto } from "src/dtos";
 import { ParkEntity } from "src/entities";
 import { ParksService } from "src/services";
 
@@ -20,11 +20,15 @@ export class ParksController {
 
     @Get(':id')
     async findOne(@Param('id') id: string): Promise<ParkEntity | null> {
-        return this.parksService.findOne(id);
+        const foundPark = await this.parksService.findOne(id);
+        if (!foundPark) {
+            throw new NotFoundException(`Park with id ${id} not found`);
+        }
+        return foundPark;
     }
 
     @Patch(':id')
-    async update(@Param('id') id: string, @Body() updateParkDto: CreateParkDto): Promise<ParkEntity | null> {
+    async update(@Param('id') id: string, @Body() updateParkDto: UpdateParkDto): Promise<ParkEntity | null> {
         return this.parksService.update(id, updateParkDto);
     }
 

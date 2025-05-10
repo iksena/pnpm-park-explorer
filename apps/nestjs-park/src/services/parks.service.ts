@@ -2,7 +2,7 @@ import { Inject, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 
-import { CreateParkDto } from "src/dtos";
+import { CreateParkDto, UpdateParkDto } from "src/dtos";
 import { ParkEntity } from "src/entities";
 
 @Injectable()
@@ -25,7 +25,8 @@ export class ParksService {
         return await this.parksRepository.findOneBy({ id });
     }
 
-    async update(id: string, updateParkDto: CreateParkDto): Promise<ParkEntity | null> {
+    async update(id: string, updateParkDto: UpdateParkDto): Promise<ParkEntity | null> {
+        updateParkDto.updatedAt = new Date();
         await this.parksRepository.update(id, updateParkDto);
         return this.findOne(id);
     }
