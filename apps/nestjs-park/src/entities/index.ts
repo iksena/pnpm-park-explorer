@@ -1,0 +1,1 @@
+export { ParkEntity } from './park.entity';
