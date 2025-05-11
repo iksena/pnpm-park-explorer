@@ -3,6 +3,7 @@ import React, { useCallback, useRef, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, Polygon, FeatureGroup } from 'react-leaflet'
 import { EditControl } from 'react-leaflet-draw';
 import { Typography, Box, Container, TextField, Button, Stack } from '@mui/material';
+import { GeoJSON } from 'leaflet';
 import ParksApi from '@/lib/axios';
 import 'leaflet/dist/leaflet.css'
 import 'leaflet-draw/dist/leaflet.draw.css'
@@ -21,13 +22,11 @@ function CreateMap() {
   const onChange = useCallback(() => {
     if (featureGroupRef.current) {
       const geoJson = featureGroupRef.current.toGeoJSON();
-      console.log(JSON.stringify(geoJson));
       const features = geoJson?.features ?? [];
-      console.log(JSON.stringify(features));
       const geometry = features[features.length - 1]?.geometry ?? {};
-      console.log(JSON.stringify(geometry));
       if (geometry.type === 'Polygon') {
-        setPolygon(geometry.coordinates);
+        const coordinates = geometry.coordinates[0].map((coord) => [coord[1], coord[0]]);
+        setPolygon([coordinates]);
       }
     }
   }, [featureGroupRef, setPolygon]);
@@ -91,12 +90,13 @@ function CreateMap() {
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
+          />
           <FeatureGroup ref={featureGroupRef}>
             <EditControl 
               ref={editControlRef}
               onCreated={() => onChange()} 
               onEdited={() => onChange()} 
+              onDeleted={() => onChange()}
               position="topright" 
               />
           </FeatureGroup>
