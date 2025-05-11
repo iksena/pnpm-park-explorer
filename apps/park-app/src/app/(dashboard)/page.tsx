@@ -10,7 +10,6 @@ import ParksApi from '@/lib/axios'
 export default async function Page() {
   try {
     const parks = await ParksApi.get('/parks');
-    // return <Typography>{JSON.stringify(parks.data)}</Typography>;
     return (
       <React.Fragment>
         {parks.data.map((park: any) => (

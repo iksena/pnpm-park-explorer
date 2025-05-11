@@ -39,8 +39,8 @@ const NAVIGATION: Navigation = [
     href: '/dashboard',
   },
   {
-    segment: 'parks',
-    title: 'Parks',
+    segment: 'create-park',
+    title: 'Create Park',
     icon: <ShoppingCartIcon />,
   },
 ]
